@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LumeTech - Innovative Tech Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.light-theme {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            transition: opacity 0.5s ease-out;
+        }
+
+        body.light-theme .loader {
+            background: #f4f4f4;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-spinner {
+            border: 8px solid #ff6f61;
+            border-top: 8px solid transparent;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: #1a1a1a;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        body.light-theme nav {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        nav.scrolled {
+            background-color: #0a0a0a;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        body.light-theme nav.scrolled {
+            background-color: #fff;
+        }
+
+        nav img {
+            height: 50px;
+            transition: transform 0.3s;
+        }
+
+        nav img:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        body.light-theme nav ul li a {
+            color: #333;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: #ff6f61;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        nav ul li a:hover {
+            color: #ff6f61;
+        }
+
+        .hire-btn {
+            background-color: #ff6f61;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .hire-btn:hover {
+            background-color: #e65b50;
+            transform: scale(1.05);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            margin-left: 20px;
+            transition: transform 0.3s;
+        }
+
+        body.light-theme .theme-toggle {
+            color: #333;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(360deg);
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        body.light-theme .hamburger {
+            color: #333;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .hero img {
+            height: 100px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        .hero .typed-text {
+            color: #ff6f61;
+            font-weight: bold;
+        }
+
+        .hero .contact-info {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .hero .contact-info p {
+            font-size: 16px;
+            margin: 5px 0;
+            color: #ddd;
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 50px;
+            background-color: #1a1a1a;
+            text-align: center;
+        }
+
+        body.light-theme .about {
+            background-color: #fff;
+        }
+
+        .about h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #ff6f61;
+            position: relative;
+        }
+
+        .about h2::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background-color: #ff6f61;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .about p {
+            max-width: 900px;
+            margin: 20px auto 40px;
+            color: #ccc;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        body.light-theme .about p {
+            color: #555;
+        }
+
+        .about .btn {
+            background-color: #ff6f61;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .about .btn:hover {
+            background-color: #e65b50;
+            transform: scale(1.05);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 100px 50px;
+            text-align: center;
+            background-color: #0a0a0a;
+        }
+
+        body.light-theme .services {
+            background-color: #f4f4f4;
+        }
+
+        .services h2 {
+            font-size: 40px;
+            margin-bottom: 50px;
+            color: #ff6f61;
+            position: relative;
+        }
+
+        .services h2::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background-color: #ff6f61;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .services .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .services .service-card {
+            background-color: #1a1a1a;
+            padding: 40px;
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        body.light-theme .services .service-card {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .services .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 111, 97, 0.2);
+        }
+
+        .services .service-card i {
+            font-size: 40px;
+            color: #ff6f61;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .services .service-card:hover i {
+            transform: rotate(360deg);
+        }
+
+        .services .service-card h3 {
+            margin-bottom: 15px;
+            color: #fff;
+            font-size: 22px;
+        }
+
+        body.light-theme .services .service-card h3 {
+            color: #333;
+        }
+
+        .services .service-card p {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        body.light-theme .services .service-card p {
+            color: #555;
+        }
+
+        /* Team Section */
+        .team {
+            padding: 100px 50px;
+            background-color: #1a1a1a;
+            text-align: center;
+        }
+
+        body.light-theme .team {
+            background-color: #fff;
+        }
+
+        .team h2 {
+            font-size: 40px;
+            margin-bottom: 50px;
+            color: #ff6f61;
+            position: relative;
+        }
+
+        .team h2::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background-color: #ff6f61;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .team .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .team .team-card {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        body.light-theme .team .team-card {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .team .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 111, 97, 0.2);
+        }
+
+        .team .team-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+
+        .team .team-card h3 {
+            color: #ff6f61;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .team .team-card p {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        body.light-theme .team .team-card p {
+            color: #555;
+        }
+
+        .team .team-card .social-links a {
+            color: #fff;
+            font-size: 18px;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        body.light-theme .team .team-card .social-links a {
+            color: #333;
+        }
+
+        .team .team-card .social-links a:hover {
+            color: #ff6f61;
+        }
+
+        /* Blog Section */
+        .blog {
+            padding: 100px 50px;
+            background-color: #0a0a0a;
+            text-align: center;
+        }
+
+        body.light-theme .blog {
+            background-color: #f4f4f4;
+        }
+
+        .blog h2 {
+            font-size: 40px;
+            margin-bottom: 50px;
+            color: #ff6f61;
+            position: relative;
+        }
+
+        .blog h2::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background-color: #ff6f61;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .blog .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .blog .blog-card {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+
+        body.light-theme .blog .blog-card {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog .blog-card:hover {
+            transform: scale(1.03);
+        }
+
+        .blog .blog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .blog .blog-card h3 {
+            color: #ff6f61;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .blog .blog-card p {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        body.light-theme .blog .blog-card p {
+            color: #555;
+        }
+
+        .blog .blog-card a {
+            color: #ff6f61;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 100px 50px;
+            background-color: #1a1a1a;
+            text-align: center;
+        }
+
+        body.light-theme .projects {
+            background-color: #fff;
+        }
+
+        .projects h2 {
+            font-size: 40px;
+            margin-bottom: 50px;
+            color: #ff6f61;
+            position: relative;
+        }
+
+        .projects h2::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background-color: #ff6f61;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .projects .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .projects .project-card {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+
+        body.light-theme .projects .project-card {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .projects .project-card:hover {
+            transform: scale(1.03);
+        }
+
+        .projects .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .projects .project-card h3 {
+            margin-bottom: 10px;
+            color: #ff6f61;
+            font-size: 20px;
+        }
+
+        .projects .project-card p {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        body.light-theme .projects .project-card p {
+            color: #555;
+        }
+
+        .projects .project-card a {
+            color: #ff6f61;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 100px 50px;
+            background-color: #0a0a0a;
+            text-align: center;
+        }
+
+        body.light-theme .testimonials {
+            background-color: #f4f4f4;
+        }
+
+        .testimonials h2 {
+            font-size: 40px;
+            margin-bottom: 50px;
+            color: #ff6f61;
+            position: relative;
+        }
+
+        .testimonials h2::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background-color: #ff6f61;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .testimonials .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonials .testimonial-card {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        body.light-theme .testimonials .testimonial-card {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonials .testimonial-card p {
+            color: #ccc;
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        body.light-theme .testimonials .testimonial-card p {
+            color: #555;
+        }
+
+        .testimonials .testimonial-card h4 {
+            color: #ff6f61;
+            font-size: 16px;
+        }
+
+        .testimonials .testimonial-card span {
+            color: #999;
+            font-size: 12px;
+        }
+
+        body.light-theme .testimonials .testimonial-card span {
+            color: #777;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 50px;
+            background-color: #1a1a1a;
+            text-align: center;
+        }
+
+        body.light-theme .contact {
+            background-color: #fff;
+        }
+
+        .contact h2 {
+            font-size: 40px;
+            margin-bottom: 50px;
+            color: #ff6f61;
+            position: relative;
+        }
+
+        .contact h2::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background-color: #ff6f61;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .contact form {
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact form input,
+        .contact form textarea {
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #2a2a2a;
+            color: #fff;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        body.light-theme .contact form input,
+        body.light-theme .contact form textarea {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .contact form input:focus,
+        .contact form textarea:focus {
+            background-color: #3a3a3a;
+            outline: none;
+        }
+
+        body.light-theme .contact form input:focus,
+        body.light-theme .contact form textarea:focus {
+            background-color: #d0d0d0;
+        }
+
+        .contact form textarea {
+            resize: none;
+        }
+
+        .contact form button {
+            background-color: #ff6f61;
+            color: #fff;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .contact form button:hover {
+            background-color: #e65b50;
+            transform: scale(1.05);
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            padding: 80px 50px;
+            background-color: #0a0a0a;
+            text-align: center;
+        }
+
+        body.light-theme .newsletter {
+            background-color: #f4f4f4;
+        }
+
+        .newsletter h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #ff6f61;
+        }
+
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: #ccc;
+            font-size: 16px;
+        }
+
+        body.light-theme .newsletter p {
+            color: #555;
+        }
+
+        .newsletter form {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .newsletter input {
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #2a2a2a;
+            color: #fff;
+            width: 300px;
+            font-size: 16px;
+        }
+
+        body.light-theme .newsletter input {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .newsletter button {
+            background-color: #ff6f61;
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .newsletter button:hover {
+            background-color: #e65b50;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            padding: 50px;
+            background-color: #1a1a1a;
+            text-align: center;
+        }
+
+        body.light-theme footer {
+            background-color: #fff;
+        }
+
+        footer .social-links {
+            margin-bottom: 20px;
+        }
+
+        footer .social-links a {
+            color: #fff;
+            font-size: 24px;
+            margin: 0 15px;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        body.light-theme footer .social-links a {
+            color: #333;
+        }
+
+        footer .social-links a:hover {
+            color: #ff6f61;
+            transform: scale(1.2);
+        }
+
+        footer p {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        body.light-theme footer p {
+            color: #555;
+        }
+
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #ff6f61;
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+        }
+
+        .scroll-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            background-color: #e65b50;
+            transform: scale(1.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        body.light-theme .modal-content {
+            background: #fff;
+        }
+
+        .modal-content h3 {
+            color: #ff6f61;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        body.light-theme .modal-content p {
+            color: #555;
+        }
+
+        .modal-content button {
+            background-color: #ff6f61;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .modal-content button:hover {
+            background-color: #e65b50;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+
+            nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: #1a1a1a;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                padding: 20px;
+            }
+
+            body.light-theme nav ul {
+                background: #fff;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .about, .services, .team, .blog, .projects, .testimonials, .contact, .newsletter {
+                padding: 60px 20px;
+            }
+
+            .newsletter input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h3>Success</h3>
+            <p id="modal-message"></p>
+            <button onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <img src="Pink Typography Initial LA Logo (1).png" alt="LumeTech Logo">
+        <button class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul id="nav-menu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#blog">Blog</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            
+        </ul>
+        <div>
+            <a href="#contact" class="hire-btn">Get a Quote</a>
+            <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <img src="Pink Typography Initial LA Logo (2).png" alt="LumeTech Logo">
+        <h1>Welcome to LumeTech</h1>
+        <p>We Provide <span class="typed-text"></span></p>
+        <div class="contact-info">
+            <p>Email: <a href="mail to: neyazuddin5050@gmail.com" style="color: #ff6f61; text-decoration: none;">neyazuddin5050@gmail.com</a></p>
+            <p>Phone: <a href="tel:+91 9955710772" style="color: #ff6f61; text-decoration: none;">+91 9955710772</a></p>
+            <p>Location : New Delhi</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <h2>About LumeTech</h2>
+        <p> LumeTech is a premier tech solutions provider dedicated to driving innovation and digital transformation. With over 15 years of experience, our team of experts specializes in web development, AI solutions, cloud computing, and cybersecurity. We partner with businesses worldwide to deliver tailored solutions that enhance efficiency, security, and growth. At LumeTech, our mission is to illuminate the path to a digital future with cutting-edge technology and unparalleled support.</p>
+        <a href="#" class="btn">Our Story</a>
+        <a href="#" class="btn">Watch Video</a>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <h2>Our Services</h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <i class="fas fa-code"></i>
+                <h3>Web Development</h3>
+                <p>We create custom, responsive websites using the latest technologies to elevate your online presence and engage your audience effectively.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-robot"></i>
+                <h3>AI Solutions</h3>
+                <p>Harness the power of artificial intelligence to automate processes, gain actionable insights, and stay ahead in a competitive market.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-cloud"></i>
+                <h3>Cloud Services</h3>
+                <p>Our scalable and secure cloud solutions ensure seamless operations, data accessibility, and business continuity for your organization.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Cybersecurity</h3>
+                <p>Protect your digital assets with our advanced cybersecurity strategies, including threat detection, encryption, and risk management.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Mobile App Development</h3>
+                <p>We build intuitive and high-performance mobile applications for iOS and Android to enhance your business reach and user engagement.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Data Analytics</h3>
+                <p>Unlock the potential of your data with our analytics services, providing insights to drive informed decision-making and growth.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="team">
+        <h2>Our Team</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="WhatsApp Image 2025-02-02 at 21.31.31_14a9ae77.jpg" alt="Team Member">
+                <h3>Jane Smith</h3>
+                <p>CEO & Founder</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="blog">
+        <h2>Our Blog</h2>
+        <div class="blog-grid">
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=300&auto=format&fit=crop" alt="Blog Post">
+                <h3>The Future of AI in Business</h3>
+                <p>Explore how artificial intelligence is transforming industries and driving innovation in 2025.</p>
+                <a href="#">Read More</a>
+            </div>
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=300&auto=format&fit=crop" alt="Blog Post">
+                <h3>Cloud Computing Trends</h3>
+                <p>Discover the latest advancements in cloud technology and how they benefit businesses.</p>
+                <a href="#">Read More</a>
+            </div>
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=300&auto=format&fit=crop" alt="Blog Post">
+                <h3>Cybersecurity Best Practices</h3>
+                <p>Learn essential strategies to protect your organization from cyber threats.</p>
+                <a href="#">Read More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <h2>Our Projects</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1551288049-b5f3a7a970c2?q=80&w=300&auto=format&fit=crop" alt="E-Commerce Platform">
+                <h3>E-Commerce Platform</h3>
+                <p>Developed a scalable e-commerce platform with seamless user experience, secure payment integration, and advanced inventory management.</p>
+                <a href="#">View Project</a>
+            </div>
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1531746790731-6c087f6947df?q=80&w=300&auto=format&fit=crop" alt="AI Chatbot">
+                <h3>AI Chatbot</h3>
+                <p>Built an intelligent chatbot for customer support, improving engagement, reducing response times, and enhancing customer satisfaction.</p>
+                <a href="#">View Project</a>
+            </div>
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=300&auto=format&fit=crop" alt="Cloud Migration">
+                <h3>Cloud Migration</h3>
+                <p>Successfully migrated enterprise data to a secure cloud environment, ensuring zero downtime and enhanced performance.</p>
+                <a href="#">View Project</a>
+            </div>
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=300&auto=format&fit=crop" alt="Cybersecurity Audit">
+                <h3>Cybersecurity Audit</h3>
+                <p>Conducted a comprehensive cybersecurity audit for a financial institution, identifying vulnerabilities and implementing robust defenses.</p>
+                <a href="#">View Project</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <h2>What Our Clients Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p>"LumeTech transformed our online presence with a stunning website. Their team was professional, responsive, and delivered beyond our expectations."</p>
+                <h4>John Doe</h4>
+                <span>CEO, TechTrend Innovations</span>
+            </div>
+            <div class="testimonial-card">
+                <p>"The AI chatbot developed by LumeTech has significantly improved our customer support. It's efficient and has saved us countless hours."</p>
+                <h4>Sarah Miller</h4>
+                <span>Head of Customer Service, RetailPro</span>
+            </div>
+            <div class="testimonial-card">
+                <p>"Their cloud migration services were seamless. We experienced zero downtime, and our operations are now more efficient than ever."</p>
+                <h4>Michael Brown</h4>
+                <span>CTO, Global Enterprises</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2>Get In Touch</h2>
+        <form id="contact-form">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <input type="text" id="subject" placeholder="Subject" required>
+            <textarea id="message" placeholder="Your Message" rows="6" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <h2>Subscribe to Our Newsletter</h2>
+        <p>Stay updated with the latest tech trends, insights, and updates from LumeTech.</p>
+        <form id="newsletter-form">
+            <input type="email" id="newsletter-email" placeholder="Enter your email" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p>Copyright © 2025 LumeTech | All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-to-top" id="scroll-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script>
+        // Loader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 1000);
+        });
+
+        // Typed.js for Hero Section
+        const typed = new Typed('.typed-text', {
+            strings: ['Innovative Tech Solutions', 'AI-Powered Insights', 'Secure Cloud Services', 'Robust Cybersecurity'],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true
+        });
+
+        // Hamburger Menu
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = hamburger.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Close mobile menu on link click
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                const icon = hamburger.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+
+        // Sticky Navbar Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const icon = themeToggle.querySelector('i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        });
+
+        // Scroll to Top Button
+        const scrollToTopBtn = document.getElementById('scroll-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Modal Functionality
+        function showModal(message) {
+            const modal = document.getElementById('modal');
+            const modalMessage = document.getElementById('modal-message');
+            modalMessage.textContent = message;
+            modal.style.display = 'flex';
+            gsap.from('.modal-content', { duration: 0.5, scale: 0.8, opacity: 0, ease: 'back' });
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            gsap.to('.modal-content', {
+                duration: 0.3,
+                scale: 0.8,
+                opacity: 0,
+                ease: 'back',
+                onComplete: () => {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Contact Form Validation
+        const contactForm = document.getElementById('contact-form');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (name && email && subject && message) {
+                if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    showModal('Message sent! We will get back to you soon.');
+                    contactForm.reset();
+                } else {
+                    showModal('Please enter a valid email address.');
+                }
+            } else {
+                showModal('Please fill in all fields.');
+            }
+        });
+
+        // Newsletter Form Validation
+        const newsletterForm = document.getElementById('newsletter-form');
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('newsletter-email').value.trim();
+            if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showModal('Subscribed successfully!');
+                newsletterForm.reset();
+            } else {
+                showModal('Please enter a valid email address.');
+            }
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from('.hero img', { duration: 1, scale: 0, ease: 'bounce' });
+        gsap.from('.hero h1', { duration: 1, x: -100, opacity: 0, delay: 0.5 });
+        gsap.from('.hero p', { duration: 1, x: 100, opacity: 0, delay: 0.7 });
+        gsap.from('.hero .contact-info', { duration: 1, y: 50, opacity: 0, delay: 1 });
+
+        gsap.utils.toArray('.service-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 80%',
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                delay: i * 0.2,
+                ease: 'power2.out'
+            });
+        });
+
+        gsap.utils.toArray('.team-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 80%',
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                delay: i * 0.2,
+                ease: 'power2.out'
+            });
+        });
+
+        gsap.utils.toArray('.blog-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 80%',
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                delay: i * 0.2,
+                ease: 'power2.out'
+            });
+        });
+
+        gsap.utils.toArray('.project-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 80%',
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                delay: i * 0.2,
+                ease: 'power2.out'
+            });
+        });
+
+        gsap.utils.toArray('.testimonial-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 80%',
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                delay: i * 0.2,
+                ease: 'power2.out'
+            });
+        });
+
+        gsap.from('.about h2', {
+            scrollTrigger: {
+                trigger: '.about',
+                start: 'top 80%',
+            },
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            ease: 'power2.out'
+        });
+
+        gsap.from('.about p', {
+            scrollTrigger: {
+                trigger: '.about',
+                start: 'top 80%',
+            },
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            delay: 0.2,
+            ease: 'power2.out'
+        });
+
+        gsap.from('.about .btn', {
+            scrollTrigger: {
+                trigger: '.about',
+                start: 'top 80%',
+            },
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            delay: 0.4,
+            ease: 'power2.out'
+        });
+    </script>
+</body>
+</html>
